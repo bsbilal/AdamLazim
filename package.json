@@ -1,0 +1,27 @@
+{
+  "name": "adam_lazim",
+  "version": "1.0.0",
+  "description": "adam lazim app",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsbilal/adam_lazim_v03.git"
+  },
+  "author": "bsBilal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsbilal/adam_lazim_v03/issues"
+  },
+  "homepage": "https://github.com/bsbilal/adam_lazim_v03#readme"
+}
