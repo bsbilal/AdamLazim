@@ -1,5 +1,10 @@
 import 'package:adam_lazim_v03/userProfileDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:adam_lazim_v03/Model/registerModel.dart';
 
 class RegisterMain extends StatefulWidget {
   @override
@@ -167,6 +172,8 @@ class _RegisterMainState extends State<RegisterMain> {
                         color: Colors.green,
                         onPressed: (){
 
+
+                          registerNewUser();
                           Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => userProfileDetailMain()));
@@ -205,6 +212,29 @@ class _RegisterMainState extends State<RegisterMain> {
 
 
 
+
+  }
+
+  Future<void> registerNewUser() async {
+    var url ='http://10.0.2.2:3850/register';
+    var body = jsonEncode({ 'data': {
+      "username":"metinfromflutter",
+      "password":"pass",
+      "path":"sdaffds.jpg",
+      "shownName":"ametin34",
+      "mail":"metin@mail.com"
+    }  });
+
+    print("Body: " + body);
+
+    http.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    ).then((http.Response response) {
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.contentLength}");
+      print(json.decode(response.body));
+    });
 
   }
 
