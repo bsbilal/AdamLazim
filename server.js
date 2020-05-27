@@ -10,12 +10,26 @@ var bodyParser = require('body-parser');
 app.use(express.json());
 
 
+function createResultData(_code,_resData,_resText)
+{
+    var resObject= {
+        resultcode: _code,
+        resuldata: _resData,
+        resulttext: _resText
+    }
+
+    return resObject;
+
+}
+
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "12345678",
     database: "dbadamlazim"
 });
+
+
 
 con.connect(function(err) {
     if (err) throw err;
@@ -50,14 +64,17 @@ app.post('/register',function (req,res) {
         insertData.path
     ];
 
+
+
     con.query(sql,insertValues,function (err, result,fields) {
         if (err) throw err;
         console.log(result.affectedRows+' Rows has affected');
-        var resJSON = JSON.stringify({
-            resultcode: 200,
-            resuldata: 53443,
-            resulttext: "Succesful"
-        });
-        res.end(JSON.stringify(resJSON));
+        var resJSON = JSON.stringify(
+            createResultData(
+                 "1",
+                'ddfsdfs',
+                'Succesful'));
+        var resp=resJSON;
+        res.end(JSON.stringify(resp));
     });
 });

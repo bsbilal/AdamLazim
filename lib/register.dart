@@ -1,12 +1,11 @@
+import 'package:adam_lazim_v03/Model/serverAddDataResponse.dart';
 import 'package:adam_lazim_v03/projectConsts.dart';
 import 'package:adam_lazim_v03/screenMain.dart';
-import 'package:adam_lazim_v03/userProfileDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:adam_lazim_v03/Model/registerModel.dart';
 
 class RegisterMain extends StatefulWidget {
   @override
@@ -29,198 +28,201 @@ class _RegisterMainState extends State<RegisterMain> {
 
     Widget  _mainContainer()
     {
-      return Container(
+      return Center(
+        child: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
 
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/register_bg.jpeg"),
-            fit: BoxFit.cover,
-          ),
+              height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/register_bg.jpg"),
+                fit: BoxFit.cover,
+              ),
 
-        ),
-          child:Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+            ),
+              child:Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
 //USERNAME
-                Container(
-                  color: Colors.white70,
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width/6,
-                    right: MediaQuery.of(context).size.width/6,
+                    Container(
+                      color: Colors.white70,
+                      margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width/6,
+                        right: MediaQuery.of(context).size.width/6,
 
 
-                  ),
-                  child:TextField(
+                      ),
+                      child:TextField(
 
-                    controller:UsernameTEC ,
+                        controller:UsernameTEC ,
 
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Username',
+                        ),
+                      ),
+
+
                     ),
-                  ),
-
-
-                ),
 //MAIL
-                Container(
-                  color: Colors.white70,
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width/6,
-                      right: MediaQuery.of(context).size.width/6,
-                      top:22
+                    Container(
+                      color: Colors.white70,
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width/6,
+                          right: MediaQuery.of(context).size.width/6,
+                          top:22
 
 
-                  ),
-                  child:TextField(
+                      ),
+                      child:TextField(
 
-                    controller:MailTEC ,
+                        controller:MailTEC ,
 
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Mail Adress',
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Mail Adress',
+                        ),
+                      ),
+
+
                     ),
-                  ),
-
-
-                ),
 //SHOWN NAME
 
-                Container(
-                  color: Colors.white70,
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width/6,
-                      right: MediaQuery.of(context).size.width/6,
-                      top: 22
-                  ),
-                  child:TextField(
-                    controller:ShownNameTEC ,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Shown Name',
+                    Container(
+                      color: Colors.white70,
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width/6,
+                          right: MediaQuery.of(context).size.width/6,
+                          top: 22
+                      ),
+                      child:TextField(
+                        controller:ShownNameTEC ,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Shown Name',
+                        ),
+                      ),
+
+
                     ),
-                  ),
-
-
-                ),
 
 //PASS
-                Container(
-
-                  color: Colors.white70,
-                  margin: EdgeInsets.only(
-
-                      left: MediaQuery.of(context).size.width/6,
-                      right: MediaQuery.of(context).size.width/6,
-                      top: 22
-
-                  ),
-
-                  child:TextField(
-
-                    controller:PasswordTEC ,
-                    obscureText: true,
-                    decoration: InputDecoration(
-
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                  ),
-
-
-                ),
-                //PASS REPEAT
-                Container(
-                  color: Colors.white70,
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width/6,
-                      right: MediaQuery.of(context).size.width/6,
-                      top: 22
-                  ),
-                  child:TextField(
-                    controller:PasswordRpTEC ,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password Confirm',
-                    ),
-                  ),
-
-
-                ),
-
-                //button row
-                //go login button
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
                     Container(
-                      width:  MediaQuery.of(context).size.width/3,
 
+                      color: Colors.white70,
                       margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width/10,
-                          top: 22,
 
-                      ),
-
-
-                      child: RaisedButton(
-                        color: Colors.purple,
-
-                        onPressed: (){
-                          Navigator.pop(context);
-
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.red)
-                        ),
-                        child:Text('Go Back',style: TextStyle(color: Colors.white,fontSize: 16),),
-                      ),
-                    ),
-
-                    //register button
-                    Container(
-                      width:  MediaQuery.of(context).size.width/3,
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width/8,
+                          left: MediaQuery.of(context).size.width/6,
+                          right: MediaQuery.of(context).size.width/6,
                           top: 22
 
                       ),
 
-                      child: RaisedButton(
+                      child:TextField(
 
-                        color: Colors.green,
-                        onPressed: (){
+                        controller:PasswordTEC ,
+                        obscureText: true,
+                        decoration: InputDecoration(
 
-
-                          registerNewUser();
-
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.greenAccent)
+                          border: OutlineInputBorder(),
+                          labelText: 'Password',
                         ),
-                        child:Text('Register',style: TextStyle(color: Colors.white,fontSize: 16),),
                       ),
+
+
+                    ),
+                    //PASS REPEAT
+                    Container(
+                      color: Colors.white70,
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width/6,
+                          right: MediaQuery.of(context).size.width/6,
+                          top: 22
+                      ),
+                      child:TextField(
+                        controller:PasswordRpTEC ,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Password Confirm',
+                        ),
+                      ),
+
+
                     ),
 
+                    //button row
+                    //go login button
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width:  MediaQuery.of(context).size.width/3,
+
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width/10,
+                              top: 22,
+
+                          ),
+
+
+                          child: RaisedButton(
+                            color: Colors.purple,
+
+                            onPressed: (){
+                              Navigator.pop(context);
+
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.red)
+                            ),
+                            child:Text('Go Back',style: TextStyle(color: Colors.white,fontSize: 16),),
+                          ),
+                        ),
+
+                        //register button
+                        Container(
+                          width:  MediaQuery.of(context).size.width/3,
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width/8,
+                              top: 22
+
+                          ),
+
+                          child: RaisedButton(
+
+                            color: Colors.green,
+                            onPressed: (){
+                              registerNewUser();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(18.0),
+                                side: BorderSide(color: Colors.greenAccent)
+                            ),
+                            child:Text('Register',style: TextStyle(color: Colors.white,fontSize: 16),),
+                          ),
+                        ),
+
+                      ],
+
+
+                    )
                   ],
 
 
-                )
-              ],
-
-
-            ),
+                ),
 
 
 
-          )
+              )
 
 
+          ),
+        ),
       );
 
     }
@@ -237,41 +239,50 @@ class _RegisterMainState extends State<RegisterMain> {
   }
 
   Future<void> registerNewUser() async {
-    var jsonResponse;
     var url =getProjectServerURL()+'/register';
     var body = jsonEncode({ 'data': {
-      "username":"metinfromflutter",
-      "password":"pass",
+      "username":"${UsernameTEC.text}",
+      "password":"${PasswordTEC.text}",
       "path":"sdaffds.jpg",
-      "shownName":"ametin34",
-      "mail":"metin@mail.com"
+      "shownName":"${ShownNameTEC.text}",
+      "mail":"${MailTEC.text}"
     }  });
 
-    print("Body: " + body);
-
+    print("Req Body: " + body);
     http.post(url,
         headers: {"Content-Type": "application/json"},
         body: body
     ).then((http.Response response) {
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.contentLength}");
-      jsonResponse=json.decode(response.body);
+      var jsonString=response.body;
+      final jsonResponse =json.decode(jsonString);
+
       print(jsonResponse);
+
+
+    if(!_hasRegistered(jsonResponse))
+        {
+          showInfoAlert(context,'Kayıt olma başarısız..',Icons.cancel);
+          return;
+        }
+
     });
-
-    if(jsonResponse!=null && jsonResponse.statusCode==1)
-      {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreenWidget()));
-      }
-      else{
-
-
-    }
-
   }
 
+  _hasRegistered(jsonResponse)
+  {
+    serverAddDataResponse resp=new serverAddDataResponse.fromJson(jsonResponse);
+    print(resp);
+    if(resp!=null && resp.resultcode=="1")
+    {
+      showInfoAlert(context,'Kayıt olma başarılı!',Icons.done);
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreenWidget()));
+    }
+    else
+      return false;
+
+  }
 
 
 }
