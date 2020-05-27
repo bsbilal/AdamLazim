@@ -1,3 +1,5 @@
+import 'package:adam_lazim_v03/projectConsts.dart';
+import 'package:adam_lazim_v03/screenMain.dart';
 import 'package:adam_lazim_v03/userProfileDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +21,7 @@ class _RegisterMainState extends State<RegisterMain> {
   final PasswordTEC=  new TextEditingController();
   final PasswordRpTEC=  new TextEditingController();
   final MailTEC=  new TextEditingController();
+  final ShownNameTEC=new TextEditingController();
 
 
   @override
@@ -83,6 +86,26 @@ class _RegisterMainState extends State<RegisterMain> {
 
 
                 ),
+//SHOWN NAME
+
+                Container(
+                  color: Colors.white70,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width/6,
+                      right: MediaQuery.of(context).size.width/6,
+                      top: 22
+                  ),
+                  child:TextField(
+                    controller:ShownNameTEC ,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Shown Name',
+                    ),
+                  ),
+
+
+                ),
+
 //PASS
                 Container(
 
@@ -174,9 +197,7 @@ class _RegisterMainState extends State<RegisterMain> {
 
 
                           registerNewUser();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => userProfileDetailMain()));
+
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(18.0),
@@ -216,7 +237,8 @@ class _RegisterMainState extends State<RegisterMain> {
   }
 
   Future<void> registerNewUser() async {
-    var url ='http://10.0.2.2:3850/register';
+    var jsonResponse;
+    var url =getProjectServerURL()+'/register';
     var body = jsonEncode({ 'data': {
       "username":"metinfromflutter",
       "password":"pass",
@@ -233,8 +255,20 @@ class _RegisterMainState extends State<RegisterMain> {
     ).then((http.Response response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.contentLength}");
-      print(json.decode(response.body));
+      jsonResponse=json.decode(response.body);
+      print(jsonResponse);
     });
+
+    if(jsonResponse!=null && jsonResponse.statusCode==1)
+      {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreenWidget()));
+      }
+      else{
+
+
+    }
 
   }
 
