@@ -270,6 +270,7 @@ class _RegisterMainState extends State<RegisterMain> {
 
   _hasRegistered(jsonResponse)
   {
+
     serverAddDataResponse resp=new serverAddDataResponse.fromJson(jsonResponse);
     print(resp);
     if(resp!=null && resp.resultcode=="1")

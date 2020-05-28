@@ -1,22 +1,20 @@
 class serverAddDataResponse {
-    final String resuldata;
-    final String resultcode;
-    final String resulttext;
+    String resultcode;
+    String resuldata;
+    String resulttext;
 
-    serverAddDataResponse({this.resuldata, this.resultcode, this.resulttext});
+    serverAddDataResponse({this.resultcode, this.resuldata, this.resulttext});
 
-    factory serverAddDataResponse.fromJson(Map<String, dynamic> json) {
-        return serverAddDataResponse(
-            resuldata: json['resuldata'] as String,
-            resultcode: json['resultcode']as String,
-            resulttext: json['resulttext']as String,
-        );
+    serverAddDataResponse.fromJson(Map<String, dynamic> json) {
+        resultcode = json['resultcode'];
+        resuldata = json['resuldata'];
+        resulttext = json['resulttext'];
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['resuldata'] = this.resuldata;
         data['resultcode'] = this.resultcode;
+        data['resuldata'] = this.resuldata;
         data['resulttext'] = this.resulttext;
         return data;
     }

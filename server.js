@@ -69,11 +69,11 @@ app.post('/register',function (req,res) {
     con.query(sql,insertValues,function (err, result,fields) {
         if (err) throw err;
         console.log(result.affectedRows+' Rows has affected');
-        var resJSON = JSON.stringify(
+        var resJSON =
             createResultData(
                  "1",
                 'ddfsdfs',
-                'Succesful'));
+                'Succesful');
         var resp=resJSON;
         res.end(JSON.stringify(resp));
     });
