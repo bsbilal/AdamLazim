@@ -13,6 +13,10 @@ import 'activeEvents.dart';
 import 'allMessages.dart';
 
 class MainScreenWidget extends StatefulWidget {
+
+  MainScreenWidget({Key key, this.userID}) : super(key: key);
+  final int userID;
+
   @override
   _MainScreenWidgetState createState() => _MainScreenWidgetState();
 }

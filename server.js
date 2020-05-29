@@ -40,22 +40,7 @@ app.listen(serverPort, function () {
     console.log('The server works at '+ip.address()+':'+serverPort);
 });
 
-
-
-app.get('/', function (req, res) {
-
-    res.send('Hello');
-    //res.send('<h1>Merhaba Express</h1>');
-
-});
-
-app.post('/', function (req, res) {
-    res.send('Merhaba Express');
-});
-
 app.post('/register',function (req,res) {
-
-
     var insertData=req.body.data;
     let sql = "CALL  REGISTERUSER(?,?,?)";
     let insertValues = [insertData.username,
@@ -87,6 +72,44 @@ app.post('/register',function (req,res) {
             var resp=resJSON;
             res.end(JSON.stringify(resp));
         });
+
+    });
+});
+
+
+app.get('/userMainDetail',function (req,res) {
+    var searchData=req.body;
+    let sql = "CALL  GETUSERDETAIL(?)";
+    let insertValues = [searchData.id
+    ];
+
+    con.query(sql,insertValues,function (err, result,fields) {
+        if (err) throw err;
+        var numRows = result.length;
+
+        if(numRows==1)
+        {
+
+            var newObj=JSON.parse(JSON.stringify(result[0][0]));
+
+            console.log(newObj);
+
+            var resJSON =
+                createResultData(
+                    "1",
+                    ""+JSON.stringify(newObj)+"",
+                    'Succesful');
+            var resp=resJSON;
+            res.end(JSON.stringify(resp));
+
+        }
+        else
+            res.end(JSON.stringify(createResultData(
+                "0",
+                "err",
+                'Does Not found')));
+
+
 
     });
 });
