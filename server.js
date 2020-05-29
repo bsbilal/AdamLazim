@@ -55,26 +55,38 @@ app.post('/', function (req, res) {
 
 app.post('/register',function (req,res) {
 
+
     var insertData=req.body.data;
-    let sql = "CALL  REGISTERUSER(?,?,?,?,?)";
+    let sql = "CALL  REGISTERUSER(?,?,?)";
     let insertValues = [insertData.username,
         insertData.password,
-        insertData.mail,
-        insertData.shownName,
-        insertData.path
+        insertData.mail
     ];
-
-
 
     con.query(sql,insertValues,function (err, result,fields) {
         if (err) throw err;
-        console.log(result.affectedRows+' Rows has affected');
-        var resJSON =
-            createResultData(
-                 "1",
-                'ddfsdfs',
-                'Succesful');
-        var resp=resJSON;
-        res.end(JSON.stringify(resp));
+
+        var newObj=JSON.parse(JSON.stringify(result[0]));
+        console.log(newObj[0].insertedid);
+        var newuserid=parseFloat(newObj[0].insertedid);
+        console.log(newuserid);
+        let sqlInsert="CALL USER_REGISTER_COMPLETE(?,?,?)";
+        let insertValues2 = [newuserid,
+            insertData.shownName,
+            insertData.path
+        ];
+        con.query(sqlInsert,insertValues2,function (err, result,fields) {
+            if (err) throw err;
+
+            console.log('go on');
+            var resJSON =
+                createResultData(
+                    "1",
+                    ""+newObj[0].insertedid+"",
+                    'Succesful');
+            var resp=resJSON;
+            res.end(JSON.stringify(resp));
+        });
+
     });
 });

@@ -14,7 +14,7 @@ void showInfoAlert  (_context,_successText,_icon) async
 {
   StatusAlert.show(
       _context,
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
       title: '$_successText',
       configuration: IconConfiguration(icon: _icon)
   );
