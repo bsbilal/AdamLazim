@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
 String _projectServerURL="http://10.0.2.2:3850";
