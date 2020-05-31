@@ -1,16 +1,8 @@
 # adam_lazim_v03
 
-A new Flutter project.
+![AdamLazim](https://user-images.githubusercontent.com/9121424/83361486-030da500-a392-11ea-8389-6e282dfc49fc.jpg)
 
-## Getting Started
+Adam Lazım uygulaması sayesinde yardıma ihtiyacı olan kişiler aradığı Adam'ı kolayca buluyor..
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
