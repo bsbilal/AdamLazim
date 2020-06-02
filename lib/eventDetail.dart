@@ -104,26 +104,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
 
                   ],
         ),),
-            Container(
-              child: Text('Adres',style: TextStyle(color: _getLabelColors(),fontSize: 20),),
-            ),
-            Container(
 
-              decoration: BoxDecoration(),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: SingleChildScrollView(
-                child: TextField(
-                  readOnly: true,
-                  decoration: new InputDecoration(
-hintText:  "1234567890112345689101234567890  max 50 length",
-
-                      border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: new BorderSide())),
-                  maxLines: 2
-                ),
-              ),
-            ),
             Container(
               child: Text('Etkinlik Detayı',style: TextStyle(color: _getLabelColors(),fontSize: 20),),
             ),
@@ -194,5 +175,27 @@ hintText:  "1234567890112345689101234567890  max 50 length",
   {
     return Color.fromARGB(250, 51, 102, 153);
 
+  }
+  Container _eventAdressField()
+  {
+return
+
+    Container(
+
+      decoration: BoxDecoration(),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: SingleChildScrollView(
+        child: TextField(
+            readOnly: true,
+            decoration: new InputDecoration(
+                hintText:  "1234567890112345689101234567890  max 50 length",
+
+                border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide())),
+            maxLines: 2
+        ),
+      ),
+    );
   }
 }
