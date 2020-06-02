@@ -5,6 +5,7 @@ import 'package:adam_lazim_v03/userComments.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,12 +24,16 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int currentPage = 1;
-
+  DateTime dtBeginSelected = new DateTime.now();
   GlobalKey bottomNavigationKey = GlobalKey();
 
   TextEditingController eventRequestTEC = new TextEditingController();
-  bool _validate = false;
+  TextEditingController _eventCreateTitleTEC = new TextEditingController();
+  TextEditingController _eventDetailTEC = new TextEditingController();
 
+
+  bool _validate = false;
+  bool _validateEventTitle=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,6 +121,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                 builder: (context) {
                   return Dialog(child: activeEventsMain());
                 }));
+
           },
           child: Container(
             decoration: myBoxDecoration(),
@@ -198,83 +204,84 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                         shape: RoundedRectangleBorder(
                             borderRadius:
                             BorderRadius.all(Radius.circular(20.0))),
-                        child: SingleChildScrollView(
-                          child:   Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              height: MediaQuery.of(context).size.height / 1.5,
-                              width: MediaQuery.of(context).size.height / 1.3,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 10),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ClipOval(
-                                        child: Image.network(
-                                          'https://i.picsum.photos/id/10/2500/1667.jpg',
-                                          height: 75,
-                                          width: 75,
-                                          fit: BoxFit.cover,
-                                        )),
-                                    Text(
-                                      'Baskete Adam Lazım',
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                    Container(
-                                      child: RaisedButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(18.0),
-                                            side: BorderSide(color: Colors.red)),
-                                        color: Colors.white,
-                                        onPressed: () {},
-                                        child: Text(
-                                          'Düzenleyen text',
-                                          style: TextStyle(
-                                              fontSize: 20, color: Colors.red),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 1.3,
+                            width: MediaQuery.of(context).size.height / 1.3,
+                            child: SingleChildScrollView(
+                              child:   Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0)),
+                                  height: MediaQuery.of(context).size.height ,
+                                  width: MediaQuery.of(context).size.height,
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        ClipOval(
+                                            child: Image.network(
+                                              'https://i.picsum.photos/id/10/2500/1667.jpg',
+                                              height: 75,
+                                              width: 75,
+                                              fit: BoxFit.cover,
+                                            )),
+                                        Text(
+                                          'Baskete Adam Lazım',
+                                          style: TextStyle(fontSize: 18),
                                         ),
-                                      ),
-                                    ),
-
-                                    Text(
-                                      '02/12/2002 19-00',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    Text(
-                                      'Etkinlik Detayı',
-                                      style: TextStyle(fontSize: 20,color: Colors.purple),
-                                    ),
-                                    _eventDetailField(),
-                                    Text(
-                                      'İstek Mesajı Detayı',
-                                      style: TextStyle(fontSize: 20,color: Colors.purple),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      child: TextField(
-                                        decoration: new InputDecoration(
-                                            labelText: "İstek Mesajım",
-                                            errorText: _validate
-                                                ? 'İstek mesajı boş olamaz...'
-                                                : null,
-                                            fillColor: Colors.white,
-                                            border: new OutlineInputBorder(
+                                        Container(
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                new BorderRadius.circular(
-                                                    25.0),
-                                                borderSide: new BorderSide())),
-                                        maxLines: 2,
-                                        maxLength: 128,
-                                        maxLengthEnforced: true,
-                                        controller: eventRequestTEC,
-                                      ),
-                                    ),
+                                                BorderRadius.circular(18.0),
+                                                side: BorderSide(color: Colors.red)),
+                                            color: Colors.white,
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Düzenleyen text',
+                                              style: TextStyle(
+                                                  fontSize: 20, color: Colors.red),
+                                            ),
+                                          ),
+                                        ),
 
-                                    Expanded(
-                                      child: Align(
-                                          alignment: Alignment.bottomCenter,
+                                        Text(
+                                          '02/12/2002 19-00',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        Text(
+                                          'Etkinlik Detayı',
+                                          style: TextStyle(fontSize: 20,color: Colors.purple),
+                                        ),
+                                        _eventDetailField(),
+                                        Text(
+                                          'İstek Mesajı Detayı',
+                                          style: TextStyle(fontSize: 20,color: Colors.purple),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          child: TextField(
+                                            decoration: new InputDecoration(
+                                                labelText: "İstek Mesajım",
+                                                errorText: _validate
+                                                    ? 'İstek mesajı boş olamaz...'
+                                                    : null,
+                                                fillColor: Colors.white,
+                                                border: new OutlineInputBorder(
+                                                    borderRadius:
+                                                    new BorderRadius.circular(
+                                                        25.0),
+                                                    borderSide: new BorderSide())),
+                                            maxLines: 2,
+                                            maxLength: 128,
+                                            maxLengthEnforced: true,
+                                            controller: eventRequestTEC,
+                                          ),
+                                        ),
+
+                                        Center(
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: new BorderRadius.only(
@@ -308,13 +315,14 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                                                         : _validate = false;
                                                   });
                                                 }),
-                                          )),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )),
+                                  )),
 
                         ),
+                          ),
                       );
                     });
               }))
@@ -323,143 +331,17 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
 
 
-  Set<Marker> _createXd(markernew) {
-    return <Marker>[
-      Marker(
-          markerId: MarkerId('fdsfdas'),
-          position: markernew,
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-              (BitmapDescriptor.hueAzure)),
-          infoWindow: InfoWindow(
-              title: 'Baskete Adam Lazım!',
-              onTap: () {
-                double dialogKenarlik = MediaQuery.of(context).size.width / 8;
 
-                return showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        backgroundColor: Colors.white70,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0))),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            height: MediaQuery.of(context).size.height / 2,
-                            width: MediaQuery.of(context).size.height / 1.3,
-                            child: Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  ClipOval(
-                                      child: Image.network(
-                                    'https://i.picsum.photos/id/10/2500/1667.jpg',
-                                    height: 75,
-                                    width: 75,
-                                    fit: BoxFit.cover,
-                                  )),
-                                  Text(
-                                    'Baskete Adam Lazım',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  Container(
-                                    child: RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(18.0),
-                                          side: BorderSide(color: Colors.red)),
-                                      color: Colors.white,
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Düzenleyen text',
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.red),
-                                      ),
-                                    ),
-                                  ),
 
-                                  Text(
-                                    '02/12/2002 19-00',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    child: TextField(
-                                      decoration: new InputDecoration(
-                                          labelText: "İstek Mesajım",
-                                          errorText: _validate
-                                              ? 'İstek mesajı boş olamaz...'
-                                              : null,
-                                          fillColor: Colors.white,
-                                          border: new OutlineInputBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      25.0),
-                                              borderSide: new BorderSide())),
-                                      maxLines: 2,
-                                      maxLength: 128,
-                                      maxLengthEnforced: true,
-                                      controller: eventRequestTEC,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: new BorderRadius.only(
-                                              bottomRight: Radius.circular(
-                                                  dialogKenarlik),
-                                              bottomLeft: Radius.circular(
-                                                  dialogKenarlik),
-                                            ),
-                                          ),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.35,
-                                          child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          9.0),
-                                                  side: BorderSide(
-                                                      color: Colors.white)),
-                                              color: Colors.green,
-                                              child: Text(
-                                                'İstek Gönder',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  eventRequestTEC.text.isEmpty
-                                                      ? _validate = true
-                                                      : _validate = false;
-                                                });
-                                              }),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            )),
-                      );
-                    });
-              }))
-    ].toSet();
-  }
 
   Widget _PageMap() {
     return Center(
         child: Scaffold(
       body: GoogleMap(
 
+
          onTap: (latlng){
-           _createXd(latlng);
+           _showCreateEventDialog(latlng);
          },
         mapToolbarEnabled: false,
         initialCameraPosition: _kGooglePlex,
@@ -809,8 +691,9 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ],
     );
   }
-  Container _eventDetailField() {
-    return Container(
+  SingleChildScrollView _eventDetailField() {
+    return SingleChildScrollView(
+      child:Container(
       height: MediaQuery.of(context).size.height / 8,
       decoration: BoxDecoration(
         border: Border.all(width: 1.0, color: Colors.black),
@@ -822,15 +705,213 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           top: MediaQuery.of(context).size.height / 50,
           right: MediaQuery.of(context).size.width / 25,
           left: MediaQuery.of(context).size.width / 25),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: SingleChildScrollView(
-          child: Text(
-            'Yaygın inancın tersine, Lorem Ipsum rastgele sözcüklerden oluşmaz. Kökleri M.Ö. 45 tarihinden bu yana klasik Latin edebiyatına kadar uzanan 2000 yıllık bir geçmişi vardır. Virginiadan Latince profesörü Richard McClintock, bir Lorem Ipsum pasajında geçen ve anlaşılması en güç sözcüklerden biri ola özcüğünün klasik edebiyattaki örneklerini incelediğinde kesin bir kaynağa ulaşmıştır. Lorm Ipsum, Çiçero tarafından M.Ö. 45 tarihinde kaleme alınan "de Finibus Bonorum et Malorum" (İyi ve Kötünün Uç Sınırları) eserinin 1.10.32 ve 1.10.33 sayılı bölümlerinden gelmektedir. Bu kitap, ahlak kuramı üzerine bir tezdir ve Rönesans döneminde çok popüler olmuştur. Lorem Ipsum pasajının ilk satırı olan "Lorem ipsum dolor sit amet" 1.10.32 sayılı bölümdeki bir satırdan gelmektedir.',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: MediaQuery.of(context).size.height / 40),
-          )),
+
+
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: SingleChildScrollView(
+            child: Text(
+              'Yaygın inancın tersine, Lorem Ipsum rastgele sözcüklerden oluşmaz. Kökleri M.Ö. 45 tarihinden bu yana klasik Latin edebiyatına kadar uzanan 2000 yıllık bir geçmişi vardır. Virginiadan Latince profesörü Richard McClintock, bir Lorem Ipsum pasajında geçen ve anlaşılması en güç sözcüklerden biri ola özcüğünün klasik edebiyattaki örneklerini incelediğinde kesin bir kaynağa ulaşmıştır. Lorm Ipsum, Çiçero tarafından M.Ö. 45 tarihinde kaleme alınan "de Finibus Bonorum et Malorum" (İyi ve Kötünün Uç Sınırları) eserinin 1.10.32 ve 1.10.33 sayılı bölümlerinden gelmektedir. Bu kitap, ahlak kuramı üzerine bir tezdir ve Rönesans döneminde çok popüler olmuştur. Lorem Ipsum pasajının ilk satırı olan "Lorem ipsum dolor sit amet" 1.10.32 sayılı bölümdeki bir satırdan gelmektedir.',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: MediaQuery.of(context).size.height / 40),
+            )),
+      )
     );
   }
 
+  Widget _dateTimePicker() {
+    DateTime dt = new DateTime.now();
+    DateTime dt2 = new DateTime.now().add(Duration(days: 90));
+    return GestureDetector(
+      onTap: () {
+        DatePicker.showDateTimePicker(context,
+            showTitleActions: true,
+            minTime: DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute),
+            maxTime: DateTime(dt2.year, dt2.month), onChanged: (date) {
+              print('change $date in time zone ' +
+                  date.timeZoneOffset.inHours.toString());
+            }, onConfirm: (date) {
+              print('confirm $date');
+              setState(() {
+                dtBeginSelected = date;
+              });
+            }, locale: LocaleType.tr);
+      },
+      child: Container(
+        margin: EdgeInsets.all(8),
+        width: MediaQuery.of(context).size.width / 3,
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Tarih',
+              style: TextStyle(fontSize: 20,color: Colors.purple),
+            ),
+            Icon(Icons.date_range, size: 30),
+            Text(
+              "${dtBeginSelected.year.toString()}"
+                  "-${dtBeginSelected.month.toString()}"
+                  "-${dtBeginSelected.day.toString()}"
+                  "  ${dtBeginSelected.hour.toString()}"
+                  ":${dtBeginSelected.minute.toString()}"
+                  "",
+              style: TextStyle(color: Colors.black54),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Container _createEventTitleField()
+  {
+    return
+      Container(
+        decoration: BoxDecoration(),
+        padding: EdgeInsets.symmetric(
+            horizontal: 8, vertical: 4),
+        child: TextField(
+          decoration: new InputDecoration(
+              labelText: "Etkinlik Başlığı",
+              errorText: _validateEventTitle
+                  ? 'İstek mesajı boş olamaz...'
+                  : null,
+              fillColor: Colors.white,
+              border: new OutlineInputBorder(
+                  borderRadius:
+                  new BorderRadius.circular(
+                      25.0),
+                  borderSide: new BorderSide())),
+          maxLength: 128,
+          maxLengthEnforced: true,
+          controller: _eventCreateTitleTEC,
+        ),
+      );
+}
+Container _createEventDetailField()
+{
+  return  Container(
+    decoration: BoxDecoration(),
+    padding: EdgeInsets.symmetric(
+        horizontal: 8, vertical: 4),
+    child: TextField(
+      decoration: new InputDecoration(
+          labelText: "Etkinlik Detayı Mesajım",
+          errorText: _validate
+              ? 'Etkinlik detayı boş olamaz...'
+              : null,
+          fillColor: Colors.white,
+          border: new OutlineInputBorder(
+              borderRadius:
+              new BorderRadius.circular(
+                  25.0),
+              borderSide: new BorderSide())),
+      maxLines: 2,
+      maxLength: 128,
+      maxLengthEnforced: true,
+      controller: _eventDetailTEC,
+    ),
+  );
+
+
+}
+
+Widget _createEventDialog()
+{
+
+return Dialog(
+      backgroundColor: Colors.white70,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.all(Radius.circular(20.0))),
+      child: Container(
+
+        child: SingleChildScrollView(
+          child:   Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0)),
+              height: MediaQuery.of(context).size.height/1.5 ,
+              width: MediaQuery.of(context).size.width,
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'Başlık',
+                      style: TextStyle(fontSize: 20,color: Colors.purple),
+                    ),
+                   _createEventTitleField(),
+                    _dateTimePicker(),
+                    Text(
+                      'Etkinlik Detayı',
+                      style: TextStyle(fontSize: 20,color: Colors.purple),
+                    ),
+                    _createEventDetailField(),
+                    _btnEventCreate()
+                  ],
+                ),
+              )),
+
+        ),
+      ),
+    );
+}
+
+ Center _btnEventCreate() {
+   double dialogKenarlik = MediaQuery.of(context).size.width / 8;
+
+   return
+
+      Center(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: new BorderRadius.only(
+              bottomRight: Radius.circular(
+                  dialogKenarlik),
+              bottomLeft: Radius.circular(
+                  dialogKenarlik),
+            ),
+          ),
+          width: MediaQuery.of(context)
+              .size
+              .width /
+              1.35,
+          child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.circular(
+                      9.0),
+                  side: BorderSide(
+                      color: Colors.white)),
+              color: Colors.green,
+              child: Text(
+                'Etkinliği Oluştur',
+                style: TextStyle(
+                    color: Colors.white),
+              ),
+              onPressed: () {
+                setState(() {
+                  _eventCreateTitleTEC.text.isEmpty
+                      ? _validate = true
+                      : _validate = false;
+
+                  _eventDetailTEC.text.isEmpty
+                      ? _validate = true
+                      : _validate = false;
+                });
+              }),
+        ),
+      );
+
+  }
+
+  _showCreateEventDialog(LatLng latlng) {
+    return (showDialog(
+        context: context,
+        builder: (context) {
+
+          return Dialog(backgroundColor: Colors.white12, child: _createEventDialog());
+        }));
+
+
+  }
 }
