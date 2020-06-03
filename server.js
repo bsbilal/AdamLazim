@@ -146,7 +146,7 @@ app.post('/getEvents',function (req,res) {
         if (err) throw err;
         var numRows = result.length;
 
-        if(numRows>1)
+        if(numRows>0)
         {
             console.log(result[0]);
 
@@ -202,3 +202,95 @@ app.get('/userMainDetail',function (req,res) {
 
     });
 });
+
+
+app.post('/getMyEvents',function (req,res) {
+    var searchData=req.body.data;
+
+
+    con.query('CALL GET_MY_EVENTS('+parseInt(searchData.requester_id)+')',function (err, result,fields) {
+        if (err) throw err;
+        var numRows = result.length;
+
+        if(numRows>1)
+        {
+            console.log(result[0]);
+
+
+            var resp=result[0];
+            res.end(JSON.stringify(resp));
+
+        }
+        else
+            res.end(JSON.stringify(createResultData(
+                "0",
+                "err",
+                'Does Not found')));
+    });
+});
+
+app.post('/cancelEvent',function (req,res) {
+
+    var searchData=req.body.data;
+
+
+
+        con.query('CALL DEACTIVE_AN_EVENT('+parseInt(searchData.event_id)+','+searchData.requester_id+');',function (err, result,fields) {
+
+            if (err) throw err;
+            var newObj=JSON.parse(JSON.stringify(result));
+
+            if(newObj.affectedRows>0)
+            {
+
+                var resJSON =
+                    createResultData(
+                        "1",
+                        "",
+                        'Succesful');
+                var resp=resJSON;
+
+                res.end(JSON.stringify(resp));
+            }
+
+        else
+            res.end(JSON.stringify(createResultData(
+                    "0",
+                    "err",
+                    'Does Not found')));
+        });
+
+})
+
+
+
+app.post('/getRequestForUser',function (req,res) {
+    var searchData=req.body.data;
+
+
+    con.query('CALL GET_EVENT_REQUESTS_FOR_USER('+parseInt(searchData.requester_id)+')',function (err, result,fields) {
+        if (err) throw err;
+        var numRows = result.length;
+
+        if(numRows>0)
+        {
+            console.log(result[0]);
+
+
+            var resp=result[0];
+            res.end(JSON.stringify(resp));
+
+        }
+        else
+            res.end(JSON.stringify(createResultData(
+                "0",
+                "err",
+                'Does Not found')));
+
+
+
+    });
+});
+
+
+

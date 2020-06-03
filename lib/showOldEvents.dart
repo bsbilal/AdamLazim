@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:adam_lazim_v03/projectConsts.dart';
 import 'package:flutter/material.dart';
 
 import 'eventDetail.dart';
@@ -25,178 +28,13 @@ class _showEventsMainState extends State<showEventsMain> {
             child: Container(
                 child: ListView(
                   scrollDirection: Axis.vertical,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          return (showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog();
-                              }));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.width / 6,
-                          margin: EdgeInsets.only(right: 6,top: 6,left: 6,bottom: 2 ),
-                          decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: new BorderRadius.all(Radius.circular(20)
-                            ),
-                            border: Border.all(color: Colors.lightGreen),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.accessibility_new,color: Colors.lightBlue  ,),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 20)
-                                    ,child: Text('02/32/2332',style: TextStyle(fontSize: 18,color: Colors.teal),),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Text('Baskete adam lazımmış',overflow: TextOverflow.ellipsis,),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Expanded(
-                                  child:Container(
-                                    margin: EdgeInsets.only(left: 100),
-                                    child:  Align(
-                                      alignment: Alignment.center,
-                                      child: Text('DÜZENLEYEN',style: getJoinText("DÜZENLEYEN"),),
-
-                                    ),
+                  children:   returnEtkinlik(json.decode(getMyEvents()).toList()
 
 
-                                  )
 
-
-                              )
-                            ],
-                          ),
-                        )),
-                    GestureDetector(
-                        onTap: () {
-                          return (showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0))),
-                                    backgroundColor: Colors.white70 ,
-
-                                    child: eventDetailMain());
-                              }));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.width / 6,
-                          margin: EdgeInsets.only(right: 6,top: 6,left: 6,bottom: 2 ),
-                          decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: new BorderRadius.all(Radius.circular(20)
-                            ),
-                            border: Border.all(color: Colors.lightGreen),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.accessibility_new,color: Colors.lightBlue  ,),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 20)
-                                    ,child: Text('02/32/2332',style: TextStyle(fontSize: 18,color: Colors.teal),),
-                                  ),
-                                  Container(
-                                    child: Text('Baskete adam lazımmış'),
-                                  )
-                                ],
-                              ),
-                              Expanded(
-                                  child:Container(
-                                    margin: EdgeInsets.only(left: 100),
-                                    child:  Align(
-                                      alignment: Alignment.center,
-                                      child: Text('DÜZENLEYEN',style: getJoinText("DÜZENLEYEN"),),
-
-                                    ),
-
-
-                                  )
-
-
-                              )
-                            ],
-                          ),
-                        )),
-                    GestureDetector(
-                        onTap: () {
-                          return (showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0))),
-                                    backgroundColor: Colors.white70 ,
-
-                                    child: eventDetailMain());
-                              }));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.width / 6,
-                          margin: EdgeInsets.only(right: 6,top: 6,left: 6,bottom: 2 ),
-                          decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: new BorderRadius.all(Radius.circular(20)
-                            ),
-                            border: Border.all(color: Colors.lightGreen),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.accessibility_new,color: Colors.lightBlue  ,),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 20)
-                                    ,child: Text('02/32/2332',style: TextStyle(fontSize: 18,color: Colors.teal),),
-                                  ),
-                                  Container(
-                                    child: Text('Baskete adam lazımmış'),
-                                  )
-                                ],
-                              ),
-                              Expanded(
-                                  child:Container(
-                                    margin: EdgeInsets.only(left: 100),
-                                    child:  Align(
-                                      alignment: Alignment.center,
-                                      child: Text('DÜZENLEYEN',style: getJoinText("DÜZENLEYEN"),),
-
-                                    ),
-
-
-                                  )
-
-
-                              )
-                            ],
-                          ),
-                        )),
-                  ],
                 )),
           ),
-        ],
+          )],
       ),
     );
   }
@@ -206,5 +44,75 @@ class _showEventsMainState extends State<showEventsMain> {
       return TextStyle(color: Colors.green, fontWeight: FontWeight.bold,fontSize: 20);
     else
       return TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold,fontSize: 20);
+  }
+
+  List <GestureDetector> returnEtkinlik(var item) {
+    List<GestureDetector> items= new List<GestureDetector>();
+
+    for(var i = 0; i < item.length; i++) {
+      if(item[i]["event_isAvailable"]==0)
+      items.add( GestureDetector(
+          onTap: () {
+            return (showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                      shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(20.0))),
+                  backgroundColor: Colors.white70 ,
+
+                  child: eventDetailMain(Baslik:'${ item[i]["event_title"]}',Detay: '${item[i]["event_detail"]}',Tarih:'${item[i]["event_date"]}', OwnerID: item[i]["event_owner_id"] ,Id: 0));
+                }));
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.width / 6,
+            margin: EdgeInsets.only(right: 6,top: 6,left: 6,bottom: 2 ),
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: new BorderRadius.all(Radius.circular(20)
+              ),
+              border: Border.all(color: Colors.lightGreen),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.accessibility_new,color: Colors.lightBlue  ,),
+                    Container(
+                      margin: EdgeInsets.only(right: 20)
+                      ,child: Text('${item[i]["event_date"]}',style: TextStyle(fontSize: 18,color: Colors.teal),),
+                    ),
+
+                  ],
+                ),
+
+                Row(
+                  children: <Widget>[
+                    Expanded(
+
+                      child: Container(margin:
+                        EdgeInsets.only(left: 20)
+                      , child: Text('${ item[i]["event_title"]}')),
+                    ),
+                    Expanded(child: Text('Geçmiş',style: getJoinText("Düzenlenmiş"),))
+
+
+
+                  ],
+
+                )
+
+              ],
+            ),
+          )),);
+
+    }
+
+
+    return items;
   }
 }

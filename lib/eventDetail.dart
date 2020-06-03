@@ -1,6 +1,16 @@
+import 'package:adam_lazim_v03/serverMethods.dart';
 import 'package:flutter/material.dart';
 
 class eventDetailMain extends StatefulWidget {
+
+  eventDetailMain({Key key,this.OwnerID, this.Baslik,this.Id,this.Detay,this.Tarih}) : super(key: key);
+  final String Baslik;
+  final int Id;
+  final int OwnerID;
+
+  final String Detay;
+  final String Tarih;
+
   @override
   _eventDetailMainState createState() => _eventDetailMainState();
 }
@@ -32,7 +42,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Center text',
+                    '${widget.Baslik}',
                     style: TextStyle(color: Colors.white,fontSize: 22),
                   )
                 ],
@@ -61,7 +71,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
                   ),
                   Expanded(
                     child: Container(
-                      child: Text('20/12/2020'),
+                      child: Text('${widget.Tarih}'),
 
 
                     ),
@@ -80,30 +90,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
 
 
               ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 4),
-                        child: Text('Düzenleyen',style: TextStyle(fontWeight:FontWeight.bold,color:  _getLabelColors(),fontSize: 18,fontStyle: FontStyle.italic),),
-
-
-                      ),
-
-
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: Text('Ahmsxsdd dasdsadsa'),
-
-
-                      ),
-
-
-                    )
-
-                  ],
-        ),),
+            ),
 
             Container(
               child: Text('Etkinlik Detayı',style: TextStyle(color: _getLabelColors(),fontSize: 20),),
@@ -116,7 +103,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
                 child: TextField(
                   readOnly: true,
                   decoration: new InputDecoration(
-                      hintText:  " max 100 length",
+                      hintText:  "${widget.Detay}",
 
                       border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(25.0),
@@ -126,45 +113,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
               ),
             ),
 
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Align(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: new BorderRadius.only(
-                            bottomRight: Radius.circular(
-                                dialogKenarlik),
-                            bottomLeft: Radius.circular(
-                                dialogKenarlik),
-                          ),
-                        ),
-                        width: MediaQuery.of(context)
-                            .size
-                            .width /
-                            3,
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(
-                                    9.0),
-                                side: BorderSide(
-                                    color: Colors.white)),
-                            color: Colors.redAccent,
-                            child: Text(
-                              'İptal Et',
-                              style: TextStyle(
-                                  color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () {
-
-                            }),
-                      )),
-                ),
-              ],
-
-
-            )
+          _cancelButton(dialogKenarlik)
 
           ],
         ));
@@ -197,5 +146,52 @@ return
         ),
       ),
     );
+  }
+
+  Row _cancelButton(dialogKenarlik) {
+  if(widget.Id!=0)
+
+    return   Row(
+      children: <Widget>[
+        Expanded(
+          child: Align(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.only(
+                    bottomRight: Radius.circular(
+                        dialogKenarlik),
+                    bottomLeft: Radius.circular(
+                        dialogKenarlik),
+                  ),
+                ),
+                width: MediaQuery.of(context)
+                    .size
+                    .width /
+                    3,
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(
+                            9.0),
+                        side: BorderSide(
+                            color: Colors.white)),
+                    color: Colors.redAccent,
+                    child: Text(
+                      'İptal Et',
+                      style: TextStyle(
+                          color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+
+                      deactiveAnEvent(widget.OwnerID,widget.Id,context);
+                    }),
+              )),
+        ),
+      ],
+
+
+    );
+else
+  return Row();
   }
 }

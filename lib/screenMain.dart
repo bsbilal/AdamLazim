@@ -36,6 +36,13 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   TextEditingController _eventDetailTEC = new TextEditingController();
 
 
+  @override
+  void initState() {
+    getEvents(widget.userID, context);
+    getRequestForUser(widget.userID, context);
+    getMyAllEvents(widget.userID,context);
+  }
+
   bool _validate = false;
   bool _validateEventTitle=false;
   @override
@@ -189,7 +196,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   );
 
   Set<Marker> _createMarker() {
-    getEvents(widget.userID, context);
+
     return _setMarkers(json.decode(getPins())).toSet();
   }
 
@@ -255,6 +262,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                 Align(
                     alignment: Alignment.topRight,
                     child: Container(
+
                       margin: EdgeInsets.only(bottom: 40, right: 20),
                       child: IconButton(
                           color: Colors.teal,
@@ -292,6 +300,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                     children: <Widget>[
                       Container(
                         height: MediaQuery.of(context).size.height / 12,
+                        width: MediaQuery.of(context).size.width / 1.2,
                         margin: EdgeInsets.only(bottom: 10),
                         child: Center(
                           child: Row(
@@ -311,7 +320,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width / 3,
+                                  width: MediaQuery.of(context).size.width / 1.5,
                                   decoration: new BoxDecoration(
                                     borderRadius: new BorderRadius.all(
                                       const Radius.circular(12.0),
@@ -323,10 +332,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Align(
-                                        alignment: Alignment.topCenter,
+                                        alignment: Alignment.center,
                                         child: Container(
                                           child: Text(
-                                            'Toplam',
+                                            'Geçmiş Etkinlikleri Görüntüle',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -334,68 +343,13 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                                           ),
                                         ),
                                       ),
-                                      Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text('Sayımız : 22'),
-                                          ))
+
                                     ],
                                   )),
                                 ),
                               ),
                               //aldıgımız yorumlar
-                              GestureDetector(
-                                onTap: (){
 
-                                  return (showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          child: userCommentsMain()
-                                        );
-                                      }));
-
-
-
-                                },
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                    borderRadius: new BorderRadius.all(
-                                      const Radius.circular(12.0),
-                                    ),
-                                    color: Color(0xff9932CC),
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width / 6,
-                                  ),
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: Center(
-                                      child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Container(
-                                          child: Text(
-                                            'Toplam',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Text('Yorum : 22'),
-                                          ))
-                                    ],
-                                  )),
-                                ),
-                              )
                             ],
                           ),
                         ),
@@ -407,15 +361,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                     ),
 
                 ),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: MaterialButton(
-                        child: Text('Tüm Yorumlarımı Görüntüle (17)'),
-                        onPressed: () {},
-                      ),
-                    ))
+
               ],
             )));
   }
@@ -466,26 +412,28 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           alignment: Alignment.center,
           child: Text('Etkinlik  isteklerim',style: TextStyle(color: Colors.white,fontSize: 26),),
         ),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child:  _getSlideble()
-          ,),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){
+        ListView(
+          children: returnrequests(json.decode(getRequests()).toList()
 
-
-        },),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-
+        ))
 
       ],
 
     ));
+
+  }
+
+  List<Container> returnrequests(var item){
+    List<Container> items=new List<Container>();
+    for(var i = 0; i < item.length; i++) {
+items.add(
+  Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
+
+
+);
+
+    }
+
 
   }
 
@@ -818,7 +766,7 @@ return Dialog(
         context: context,
         builder: (context) {
 
-          return new Dialog(backgroundColor: Colors.white12, child: _createEventDialog(latlng));
+          return new Dialog(backgroundColor: Colors.transparent, child: _createEventDialog(latlng));
         }));
 
 
@@ -962,11 +910,14 @@ return Dialog(
                               });
                               eventJoinRequest newRequest=new eventJoinRequest();
                               newRequest.request_detail=eventRequestTEC.text;
-                              newRequest.receiver_id=10;
+                              newRequest.receiver_id=event["event_owner_id"];
                               newRequest.requester_id=widget.userID;
 
 
                               _etkinlikKatilimIstegiGonder(newRequest);
+
+
+
                             }),
                       ),
                     ),
@@ -980,5 +931,75 @@ return Dialog(
 
 
   }
+/*
+     GestureDetector(
+                                onTap: (){
 
+                                  return (showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          child: userCommentsMain()
+                                        );
+                                      }));
+
+
+
+                                },
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                    borderRadius: new BorderRadius.all(
+                                      const Radius.circular(12.0),
+                                    ),
+                                    color: Color(0xff9932CC),
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width / 6,
+                                  ),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Container(
+                                          child: Text(
+                                            'Toplam',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            child: Text('Yorum : 22'),
+                                          ))
+                                    ],
+                                  )),
+                                ),
+                              )
+
+
+
+ */
+
+/*
+
+      Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: MaterialButton(
+                        child: Text('Tüm Yorumlarımı Görüntüle (17)'),
+                        onPressed: () {},
+                      ),
+                    ))
+
+
+ */
 }

@@ -63,6 +63,7 @@ _hasRegistered(jsonResponse,context)
     showInfoAlert(context,'İşlem başarılı!',Icons.done);
   else
     return false;
+  Navigator.pop(context);
 
 }
 class eventJoinRequest{
@@ -78,7 +79,7 @@ class eventJoinRequest{
 
 
 Future<void> createNewRequest(eventJoinRequest requestNew,context) async {
-  var url =getProjectServerURL()+'/CreateEvent';
+  var url =getProjectServerURL()+'/sendEventJoinRequest';
   print(url);
   var body = jsonEncode({ 'data': {
     "requester_id":"${requestNew.requester_id}",
@@ -131,12 +132,74 @@ Future<void> getEvents(int requesterID,context) async {
     setpins(jsonString);
     return jsonString;
 
+  });
+}
+Future<void> getRequestForUser(int requesterID,context) async {
+  var url =getProjectServerURL()+'/getRequestForUser';
+  print(url);
+  var body = jsonEncode({ 'data': {
+    "requester_id":"$requesterID"
+  }  });
 
-   /* if(!_hasRegistered(jsonResponse,context))
+  print("Req Body: " + body);
+
+  print(body);
+  http.post(url,
+      headers: {"Content-Type": "application/json"},
+      body: body
+  ).then((http.Response response) {
+    var jsonString=response.body;
+    setRequests(jsonString);
+    return jsonString;
+
+  });
+}
+
+Future<void> getMyAllEvents(int requesterID,context) async {
+  var url =getProjectServerURL()+'/getMyEvents';
+  print(url);
+  var body = jsonEncode({ 'data': {
+    "requester_id":"$requesterID"
+  }  });
+
+  print("Req Body: " + body);
+
+  print(body);
+  http.post(url,
+      headers: {"Content-Type": "application/json"},
+      body: body
+  ).then((http.Response response) {
+    var jsonString=response.body;
+    setMyEvents(jsonString);
+    return jsonString;
+
+  });
+}
+
+Future<void> deactiveAnEvent(int requesterID,int eventID,context) async {
+  var url =getProjectServerURL()+'/cancelEvent';
+  print(url);
+  var body = jsonEncode({ 'data': {
+    "requester_id":requesterID,
+    "event_id":eventID
+  }  });
+
+  print("Req Body: " + body);
+
+  print(body);
+  http.post(url,
+      headers: {"Content-Type": "application/json"},
+      body: body
+  ).then((http.Response response) {
+    var jsonString=response.body;
+    final jsonResponse =json.decode(jsonString);
+    if(!_hasRegistered(jsonResponse,context))
     {
       showInfoAlert(context,'İşlem Başarısız..',Icons.cancel);
-      return;
-    }*/
+    }
+    Navigator.pop(context);
+
+    return jsonResponse;
 
   });
 }
