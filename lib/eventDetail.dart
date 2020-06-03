@@ -184,6 +184,7 @@ return
                     onPressed: () {
 
                       deactiveAnEvent(widget.OwnerID,widget.Id,context);
+                      Navigator.pop(context);
                     }),
               )),
         ),

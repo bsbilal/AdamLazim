@@ -233,9 +233,7 @@ app.post('/cancelEvent',function (req,res) {
 
     var searchData=req.body.data;
 
-
-
-        con.query('CALL DEACTIVE_AN_EVENT('+parseInt(searchData.event_id)+','+searchData.requester_id+');',function (err, result,fields) {
+    con.query('CALL DEACTIVE_AN_EVENT('+parseInt(searchData.event_id)+','+searchData.requester_id+');',function (err, result,fields) {
 
             if (err) throw err;
             var newObj=JSON.parse(JSON.stringify(result));

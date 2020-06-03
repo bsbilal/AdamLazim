@@ -47,7 +47,8 @@ class eventsMainState extends State<activeEventsMain> {
 
     List<GestureDetector> items=new List<GestureDetector>();
     for(var i = 0; i < item.length; i++) {
-      if(item[i]["event_isAvailable"]==1)
+      print(item[i]);
+
       items.add(GestureDetector(
         onTap: () {
           return (showDialog(

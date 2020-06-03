@@ -44,7 +44,6 @@ Future<void> createNewEvent(eventCreateClass eventNew,context) async {
 
     print(jsonResponse);
 
-
     if(!_hasRegistered(jsonResponse,context))
     {
       showInfoAlert(context,'İşlem Başarısız..',Icons.cancel);
@@ -63,7 +62,7 @@ _hasRegistered(jsonResponse,context)
     showInfoAlert(context,'İşlem başarılı!',Icons.done);
   else
     return false;
-  Navigator.pop(context);
+
 
 }
 class eventJoinRequest{
@@ -171,6 +170,7 @@ Future<void> getMyAllEvents(int requesterID,context) async {
   ).then((http.Response response) {
     var jsonString=response.body;
     setMyEvents(jsonString);
+    print(jsonString);
     return jsonString;
 
   });

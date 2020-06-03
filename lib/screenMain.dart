@@ -35,14 +35,6 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   TextEditingController _eventCreateTitleTEC = new TextEditingController();
   TextEditingController _eventDetailTEC = new TextEditingController();
 
-
-  @override
-  void initState() {
-    getEvents(widget.userID, context);
-    getRequestForUser(widget.userID, context);
-    getMyAllEvents(widget.userID,context);
-  }
-
   bool _validate = false;
   bool _validateEventTitle=false;
   @override
@@ -83,14 +75,18 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   _getPage(int page) {
     switch (page) {
       case 0:
+        getRequestForUser(widget.userID, context);
+        getMyAllEvents(widget.userID,context);
         return _PageUpdates();
 
       case 1:
+        getRequestForUser(widget.userID, context);
+        getMyAllEvents(widget.userID,context);
         return _PageMap();
       case 2:
+        getRequestForUser(widget.userID, context);
+        getMyAllEvents(widget.userID,context);
         return _PageProfile();
-      case 3:
-        return MessagesMain();
       default:
         return Center(
           child: Text('Bir şeyler yanlış gitti'),
@@ -117,14 +113,14 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         Container(
           margin: EdgeInsets.only(bottom: 20),
           child: Text(
-            "Name of Human",
+            "Abbbb of Cccdd",
             style: TextStyle(
                 color: Colors.indigoAccent,
                 fontSize: 25,
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Container(margin: EdgeInsets.only(bottom: 8), child: _getUserStars()),
+      //  Container(margin: EdgeInsets.only(bottom: 8), child: _getUserStars()),
         GestureDetector(
           onTap: () {
             return (showDialog(
@@ -284,13 +280,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                     )),
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    "Name of Human",
-                    style: TextStyle(
-                        color: Colors.indigoAccent,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
+
                 ),
                   ExpansionTile(
                     leading: Icon(
@@ -412,28 +402,20 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           alignment: Alignment.center,
           child: Text('Etkinlik  isteklerim',style: TextStyle(color: Colors.white,fontSize: 26),),
         ),
-        ListView(
-          children: returnrequests(json.decode(getRequests()).toList()
 
-        ))
+        Container(  margin: EdgeInsets.symmetric(vertical: 4),child:  _getSlideble()
+          ,),
+        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){
+
+
+        },),),
+          Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
+        Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
+
 
       ],
 
     ));
-
-  }
-
-  List<Container> returnrequests(var item){
-    List<Container> items=new List<Container>();
-    for(var i = 0; i < item.length; i++) {
-items.add(
-  Container(  margin: EdgeInsets.symmetric(vertical: 4),child: GestureDetector(child: _getSlideble(),onTap: (){},),),
-
-
-);
-
-    }
-
 
   }
 

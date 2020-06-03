@@ -1,6 +1,7 @@
 import 'package:adam_lazim_v03/Model/serverAddDataResponse.dart';
 import 'package:adam_lazim_v03/projectConsts.dart';
 import 'package:adam_lazim_v03/screenMain.dart';
+import 'package:adam_lazim_v03/serverMethods.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -276,6 +277,9 @@ class _RegisterMainState extends State<RegisterMain> {
     if(resp!=null && resp.resultcode=="1")
     {
       showInfoAlert(context,'Kayıt olma başarılı!',Icons.done);
+
+      getEvents(int.parse(resp.resuldata), context);
+
       Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MainScreenWidget(userID: int.parse(resp.resuldata))));
