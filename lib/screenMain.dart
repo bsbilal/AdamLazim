@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:adam_lazim_v03/projectConsts.dart';
 import 'package:adam_lazim_v03/register.dart';
 import 'package:adam_lazim_v03/requestDetail.dart';
+import 'package:adam_lazim_v03/serverMethods.dart';
 import 'package:adam_lazim_v03/showOldEvents.dart';
 import 'package:adam_lazim_v03/userComments.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
@@ -185,148 +189,38 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   );
 
   Set<Marker> _createMarker() {
-    return <Marker>[
-      Marker(
-          markerId: MarkerId('fdsfdas'),
-          position: _kGooglePlex.target,
+    getEvents(widget.userID, context);
+    return _setMarkers(json.decode(getPins())).toSet();
+  }
+
+  List<Marker> _setMarkers(var respItems) {
+    List <Marker> markers= new List <Marker>();
+    // print(jsonResponse);
+    print('???');
+    print(respItems);
+    print('aaa');
+    for(var i = 0; i < respItems.length; i++){
+      print(respItems[i]);
+
+      markers.add( Marker(
+          markerId: MarkerId('${respItems[i]["event_id"]}'),
+          position: LatLng(double.parse(respItems[i]["event_latitude"]), double.parse(respItems[i]["event_longitude"])),
           icon: BitmapDescriptor.defaultMarkerWithHue(
               (BitmapDescriptor.hueAzure)),
           infoWindow: InfoWindow(
-              title: 'Baskete Adam Lazım!',
+              title: '${respItems[i]["event_title"]}',
               onTap: () {
                 double dialogKenarlik = MediaQuery.of(context).size.width / 8;
 
                 return showDialog(
                     context: context,
                     builder: (context) {
-                      return Dialog(
-                        backgroundColor: Colors.white70,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(20.0))),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            width: MediaQuery.of(context).size.height / 1.3,
-                            child: SingleChildScrollView(
-                              child:   Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0)),
-                                  height: MediaQuery.of(context).size.height ,
-                                  width: MediaQuery.of(context).size.height,
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        ClipOval(
-                                            child: Image.network(
-                                              'https://i.picsum.photos/id/10/2500/1667.jpg',
-                                              height: 75,
-                                              width: 75,
-                                              fit: BoxFit.cover,
-                                            )),
-                                        Text(
-                                          'Baskete Adam Lazım',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        Container(
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(18.0),
-                                                side: BorderSide(color: Colors.red)),
-                                            color: Colors.white,
-                                            onPressed: () {},
-                                            child: Text(
-                                              'Düzenleyen text',
-                                              style: TextStyle(
-                                                  fontSize: 20, color: Colors.red),
-                                            ),
-                                          ),
-                                        ),
 
-                                        Text(
-                                          '02/12/2002 19-00',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        Text(
-                                          'Etkinlik Detayı',
-                                          style: TextStyle(fontSize: 20,color: Colors.purple),
-                                        ),
-                                        _eventDetailField(),
-                                        Text(
-                                          'İstek Mesajı Detayı',
-                                          style: TextStyle(fontSize: 20,color: Colors.purple),
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          child: TextField(
-                                            decoration: new InputDecoration(
-                                                labelText: "İstek Mesajım",
-                                                errorText: _validate
-                                                    ? 'İstek mesajı boş olamaz...'
-                                                    : null,
-                                                fillColor: Colors.white,
-                                                border: new OutlineInputBorder(
-                                                    borderRadius:
-                                                    new BorderRadius.circular(
-                                                        25.0),
-                                                    borderSide: new BorderSide())),
-                                            maxLines: 2,
-                                            maxLength: 128,
-                                            maxLengthEnforced: true,
-                                            controller: eventRequestTEC,
-                                          ),
-                                        ),
-
-                                        Center(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: new BorderRadius.only(
-                                                bottomRight: Radius.circular(
-                                                    dialogKenarlik),
-                                                bottomLeft: Radius.circular(
-                                                    dialogKenarlik),
-                                              ),
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                1.35,
-                                            child: RaisedButton(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        9.0),
-                                                    side: BorderSide(
-                                                        color: Colors.white)),
-                                                color: Colors.green,
-                                                child: Text(
-                                                  'İstek Gönder',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    eventRequestTEC.text.isEmpty
-                                                        ? _validate = true
-                                                        : _validate = false;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-
-                        ),
-                          ),
-                      );
+                      return _requestDialog(dialogKenarlik,respItems[i]);
                     });
-              }))
-    ].toSet();
+              })));
+    }
+    return markers;
   }
 
 
@@ -691,10 +585,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ],
     );
   }
-  SingleChildScrollView _eventDetailField() {
+  SingleChildScrollView _eventDetailField(String detay) {
     return SingleChildScrollView(
       child:Container(
       height: MediaQuery.of(context).size.height / 8,
+      width: MediaQuery.of(context).size.width/1.2,
       decoration: BoxDecoration(
         border: Border.all(width: 1.0, color: Colors.black),
         borderRadius: BorderRadius.all(
@@ -710,7 +605,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: SingleChildScrollView(
             child: Text(
-              'Yaygın inancın tersine, Lorem Ipsum rastgele sözcüklerden oluşmaz. Kökleri M.Ö. 45 tarihinden bu yana klasik Latin edebiyatına kadar uzanan 2000 yıllık bir geçmişi vardır. Virginiadan Latince profesörü Richard McClintock, bir Lorem Ipsum pasajında geçen ve anlaşılması en güç sözcüklerden biri ola özcüğünün klasik edebiyattaki örneklerini incelediğinde kesin bir kaynağa ulaşmıştır. Lorm Ipsum, Çiçero tarafından M.Ö. 45 tarihinde kaleme alınan "de Finibus Bonorum et Malorum" (İyi ve Kötünün Uç Sınırları) eserinin 1.10.32 ve 1.10.33 sayılı bölümlerinden gelmektedir. Bu kitap, ahlak kuramı üzerine bir tezdir ve Rönesans döneminde çok popüler olmuştur. Lorem Ipsum pasajının ilk satırı olan "Lorem ipsum dolor sit amet" 1.10.32 sayılı bölümdeki bir satırdan gelmektedir.',
+                detay,
               style: TextStyle(
                   color: Colors.black,
                   fontSize: MediaQuery.of(context).size.height / 40),
@@ -814,7 +709,7 @@ Container _createEventDetailField()
 
 }
 
-Widget _createEventDialog()
+Widget _createEventDialog(LatLng koordinatlar)
 {
 
 return Dialog(
@@ -846,7 +741,7 @@ return Dialog(
                       style: TextStyle(fontSize: 20,color: Colors.purple),
                     ),
                     _createEventDetailField(),
-                    _btnEventCreate()
+                    _btnEventCreate(koordinatlar)
                   ],
                 ),
               )),
@@ -856,7 +751,7 @@ return Dialog(
     );
 }
 
- Center _btnEventCreate() {
+ Center _btnEventCreate(LatLng koordinatlar) {
    double dialogKenarlik = MediaQuery.of(context).size.width / 8;
 
    return
@@ -898,6 +793,20 @@ return Dialog(
                       ? _validate = true
                       : _validate = false;
                 });
+
+                eventCreateClass newEvent=new eventCreateClass();
+                newEvent.event_title=_eventCreateTitleTEC.text;
+                newEvent.event_owner_id=widget.userID;
+                newEvent.event_isAvailable=1;
+                newEvent.event_detail=_eventDetailTEC.text;
+                newEvent.event_latitude=koordinatlar.latitude.toString();
+                newEvent.event_longitude=koordinatlar.longitude.toString();
+                newEvent.event_date=dtBeginSelected;
+
+
+
+                _etkinlikOlustur(newEvent);
+
               }),
         ),
       );
@@ -905,13 +814,171 @@ return Dialog(
   }
 
   _showCreateEventDialog(LatLng latlng) {
-    return (showDialog(
+    return  (showDialog(
         context: context,
         builder: (context) {
 
-          return Dialog(backgroundColor: Colors.white12, child: _createEventDialog());
+          return new Dialog(backgroundColor: Colors.white12, child: _createEventDialog(latlng));
         }));
 
 
   }
+
+  void _etkinlikOlustur(eventCreateClass event) {
+
+    createNewEvent(event,context);
+    Navigator.of(context).pop();
+  }
+  void _etkinlikKatilimIstegiGonder(eventJoinRequest event)
+  {
+
+    createNewRequest(event,context);
+    Navigator.of(context).pop();
+
+  }
+
+   _getMarkers() {
+    print(widget.userID);
+    return getEvents(widget.userID, context);
+
+  }
+
+  Dialog _requestDialog(dialogKenarlik,var event) {
+    return Dialog(
+      backgroundColor: Colors.white70,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.all(Radius.circular(20.0))),
+      child: Container(
+        height: MediaQuery.of(context).size.height / 1.3,
+        width: MediaQuery.of(context).size.height / 1.3,
+        child: SingleChildScrollView(
+          child:   Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0)),
+              height: MediaQuery.of(context).size.height ,
+              width: MediaQuery.of(context).size.height,
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ClipOval(
+                        child: Image.network(
+                          'https://i.picsum.photos/id/10/2500/1667.jpg',
+                          height: 75,
+                          width: 75,
+                          fit: BoxFit.cover,
+                        )),
+                    Text(
+                      '${event["event_title"]}',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Container(
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.red)),
+                        color: Colors.white,
+                        onPressed: () {},
+                        child: Text(
+                          'Düzenleyen text',
+                          style: TextStyle(
+                              fontSize: 20, color: Colors.red),
+                        ),
+                      ),
+                    ),
+
+                    Text(
+                      '${DateTime.parse(event["event_date"])
+                      }',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text(
+                      'Etkinlik Detayı',
+                      style: TextStyle(fontSize: 20,color: Colors.purple),
+                    ),
+                    _eventDetailField(event["event_detail"]),
+                    Text(
+                      'İstek Mesajı Detayı',
+                      style: TextStyle(fontSize: 20,color: Colors.purple),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: TextField(
+                        decoration: new InputDecoration(
+                            labelText: "İstek Mesajım",
+                            errorText: _validate
+                                ? 'İstek mesajı boş olamaz...'
+                                : null,
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                                borderRadius:
+                                new BorderRadius.circular(
+                                    25.0),
+                                borderSide: new BorderSide())),
+                        maxLines: 2,
+                        maxLength: 128,
+                        maxLengthEnforced: true,
+                        controller: eventRequestTEC,
+                      ),
+                    ),
+
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: new BorderRadius.only(
+                            bottomRight: Radius.circular(
+                                dialogKenarlik),
+                            bottomLeft: Radius.circular(
+                                dialogKenarlik),
+                          ),
+                        ),
+                        width: MediaQuery.of(context)
+                            .size
+                            .width /
+                            1.35,
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(
+                                    9.0),
+                                side: BorderSide(
+                                    color: Colors.white)),
+                            color: Colors.green,
+                            child: Text(
+                              'İstek Gönder',
+                              style: TextStyle(
+                                  color: Colors.white),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                eventRequestTEC.text.isEmpty
+                                    ? _validate = true
+                                    : _validate = false;
+                              });
+                              eventJoinRequest newRequest=new eventJoinRequest();
+                              newRequest.request_detail=eventRequestTEC.text;
+                              newRequest.receiver_id=10;
+                              newRequest.requester_id=widget.userID;
+
+
+                              _etkinlikKatilimIstegiGonder(newRequest);
+                            }),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+
+        ),
+      ),
+    );
+
+
+  }
+
 }

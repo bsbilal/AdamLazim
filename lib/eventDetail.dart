@@ -116,7 +116,7 @@ class _eventDetailMainState extends State<eventDetailMain> {
                 child: TextField(
                   readOnly: true,
                   decoration: new InputDecoration(
-                      hintText:  " max 100 lengt",
+                      hintText:  " max 100 length",
 
                       border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(25.0),

@@ -76,6 +76,95 @@ app.post('/register',function (req,res) {
     });
 });
 
+app.post('/CreateEvent',function (req,res) {
+    var insertData=req.body.data;
+    let sql = "CALL  CREATE_EVENT(?,?,?,?,?,?,?)";
+    let insertValues = [
+        insertData.event_title,
+        insertData.event_date,
+        insertData.event_detail,
+        insertData.event_owner_id,
+        insertData.event_isAvailable,
+        insertData.event_longitude,
+        insertData.event_latitude,
+
+    ];
+
+    con.query(sql,insertValues,function (err, result,fields) {
+        if (err) throw err;
+
+        var newObj=JSON.parse(JSON.stringify(result));
+
+        if(newObj.affectedRows>0)
+            var resJSON =
+                createResultData(
+                    "1",
+                    "",
+                    'Succesful');
+        var resp=resJSON;
+
+            res.end(JSON.stringify(resp));
+
+
+    });
+});
+
+
+app.post('/sendEventJoinRequest',function (req,res) {
+    var insertData=req.body.data;
+    let sql = "CALL  EVENTJOINREQUEST(?,?,?)";
+    let insertValues = [
+        insertData.requester_id,
+        insertData.receiver_id,
+        insertData.request_detail
+    ];
+
+    con.query(sql,insertValues,function (err, result,fields) {
+        if (err) throw err;
+
+        var newObj=JSON.parse(JSON.stringify(result));
+
+        if(newObj.affectedRows>0)
+            var resJSON =
+                createResultData(
+                    "1",
+                    "",
+                    'Succesful');
+        var resp=resJSON;
+
+        res.end(JSON.stringify(resp));
+
+
+    });
+});
+
+app.post('/getEvents',function (req,res) {
+    var searchData=req.body.data;
+
+
+    con.query('CALL GET_EVENTS('+parseInt(searchData.requester_id)+')',function (err, result,fields) {
+        if (err) throw err;
+        var numRows = result.length;
+
+        if(numRows>1)
+        {
+            console.log(result[0]);
+
+
+            var resp=result[0];
+            res.end(JSON.stringify(resp));
+
+        }
+        else
+            res.end(JSON.stringify(createResultData(
+                "0",
+                "err",
+                'Does Not found')));
+
+
+
+    });
+});
 
 app.get('/userMainDetail',function (req,res) {
     var searchData=req.body;

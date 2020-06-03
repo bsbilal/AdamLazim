@@ -278,7 +278,7 @@ class _RegisterMainState extends State<RegisterMain> {
       showInfoAlert(context,'Kayıt olma başarılı!',Icons.done);
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MainScreenWidget()));
+          MaterialPageRoute(builder: (context) => MainScreenWidget(userID: int.parse(resp.resuldata))));
     }
     else
       return false;
